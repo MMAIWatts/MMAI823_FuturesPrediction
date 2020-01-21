@@ -22,8 +22,7 @@ stations = df_stations.StationID
 print('Fetching the following stations...')
 print(df_stations)
 
-# location id for the locations of interest
-locationid = 'FIPS:38'
+# Station ID for the locations of interest
 stationid = 'GHCND:MXM00076680'
 datasetid = 'GHCND'
 
@@ -31,16 +30,11 @@ datasetid = 'GHCND'
 base_url_data = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/data'
 df_weather = pd.DataFrame()
 
+# fetch data from NOAA and store in csv
 for s in stations:
     d = get_weather(stationid=s, datasetid=datasetid, datatype='PRCP', start_date=begin_date, end_date=end_date,
                     token=myToken, base_url=base_url_data)
     df_weather = df_weather.append(d, ignore_index=True)
 
-# separate for PRCP data
-prcp = df_weather[df_weather['datatype'] == 'PRCP']
-tavg = df_weather[df_weather['datatype'] == 'PRCP']
-
-prcp = prcp.join(tavg, on=['date', 'station'], rsuffix='_1')
-
-print(prcp)
-# df_weather.to_csv('out/mx_test.csv')
+# Write to CSV
+df_weather.to_csv('out/raw_weather_data.csv')

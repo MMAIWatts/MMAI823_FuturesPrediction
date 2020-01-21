@@ -6,7 +6,7 @@ def get_weather(datasetid, stationid, datatype, start_date, end_date, token, bas
     token = {'token': token}
 
     params = 'datasetid=' + str(datasetid) + '&' + 'datatypeid' + str(datatype) + '&' + 'stationid=' + str(stationid) + '&' + 'startdate=' + str(
-        start_date) + '&' + 'enddate=' + str(end_date) + '&' + 'limit=500' + '&' + 'units=metric'
+        start_date) + '&' + 'enddate=' + str(end_date) + '&' + 'limit=1000' + '&' + 'units=metric'
 
     r = requests.get(base_url, params=params, headers=token)
     print('Request status code: ' + str(r.status_code))
