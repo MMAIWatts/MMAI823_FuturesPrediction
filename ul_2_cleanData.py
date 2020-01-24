@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # Define local variables
-wdata_path = 'data/raw_weather_data.csv'
+wdata_path = 'out/raw_weather_data.csv'
 fdata_path = 'data/raw_financial_data.csv'
 
 # Read CSV
