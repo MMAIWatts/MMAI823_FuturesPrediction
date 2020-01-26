@@ -13,7 +13,7 @@ lastyear = datetime.datetime.now() - datetime.timedelta(weeks=52)
 lastyear_plus = lastyear + datetime.timedelta(weeks=2)
 
 # set start and end dates, currently set to 1 day's data for testing
-begin_date = datetime.date(year=2019, month=1, day=1)
+begin_date = datetime.date(year=2017, month=1, day=1)
 end_date = begin_date.strftime("%Y-%m-%d")
 
 # import list of locations
@@ -40,4 +40,4 @@ for s in stations:
         df_weather = df_weather.append(d, ignore_index=True)
 
 # Write to CSV
-df_weather.to_csv('out/raw_weather_data.csv')
+df_weather.to_csv('out/2017_raw_weather_data.csv')
