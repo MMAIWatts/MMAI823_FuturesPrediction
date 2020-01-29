@@ -25,7 +25,9 @@ print(df.info())
 
 # imput both NaNs and '-' symbols
 nan_imp = SimpleImputer(missing_values=np.nan, strategy='constant', fill_value=0)
+nan_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
 imp = SimpleImputer(missing_values='-', strategy='constant', fill_value=0)
+imp_df = nan_mean.fit_transform(df[df.columns[12:25]])
 imp_df = nan_imp.fit_transform(df)
 imp_df = pd.DataFrame(imp.fit_transform(imp_df))
 imp_df.columns = df.columns
