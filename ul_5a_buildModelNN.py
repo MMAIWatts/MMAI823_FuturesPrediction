@@ -2,9 +2,6 @@ import pandas as pd
 import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import balanced_accuracy_score
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.utils import np_utils
 
 # Local variables
 train_path = 'data/train_set.csv'
