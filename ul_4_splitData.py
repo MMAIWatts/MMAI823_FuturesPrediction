@@ -5,18 +5,22 @@ from sklearn.preprocessing import StandardScaler
 # local variables
 d_path = 'data/joined_master.csv'
 randomState = 42
-train_test = 0.2
+train_test = 0.8
 
 # read csv
 df = pd.read_csv(d_path, index_col=0)
+df = df['2013-04-01':'2019-12-03']
 
 # drop un-need columns
-df.drop(columns=df.columns[-16:], inplace=True)
+df.drop(columns=df.columns[-20:], inplace=True)
 print(df.info())
 
 # Separate into features and targets
-y = pd.DataFrame(df[df.columns[-8:]], columns=df.columns[-8:])
-X = pd.DataFrame(df[df.columns[:-8]], columns=df.columns[:-8])
+y = pd.DataFrame(df[df.columns[-16:]], columns=df.columns[-16:])
+y = y.astype('category')
+y.index = pd.to_datetime(y.index)
+X = pd.DataFrame(df[df.columns[:-16]], columns=df.columns[:-16])
+X.index = pd.to_datetime(X.index)
 
 # Standard scaler
 scaler = StandardScaler()
@@ -29,7 +33,11 @@ print(X.info())
 print(y.info())
 
 # train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=train_test, random_state=randomState)
+split = int(train_test*len(X))
+X_train = X.iloc[:split]
+y_train = y.iloc[:split]
+X_test = X.iloc[split:]
+y_test = y.iloc[split:]
 df_test = pd.merge(X_test, y_test, left_index=True, right_index=True)
 df_train = pd.merge(X_train, y_train, left_index=True, right_index=True)
 

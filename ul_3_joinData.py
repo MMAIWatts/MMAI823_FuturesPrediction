@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.impute import SimpleImputer
 
 # Filepaths
-fdata_path = 'data/df_target_commodities.csv'
+fdata_path = 'data/commodities_agg.csv'
 wdata_path = 'data/cleaned_weather_data.csv'
 
 df_f = pd.read_csv(fdata_path, index_col=0)
@@ -12,6 +12,7 @@ df_w = pd.read_csv(wdata_path, index_col=0)
 print('Imported weather data...')
 
 # reindex finance data
+df_f['Date'] = pd.to_datetime(df_f['Date'])
 df_f.set_index('Date', inplace=True)
 
 print(df_f.head())
@@ -25,9 +26,9 @@ print(df.info())
 
 # imput both NaNs and '-' symbols
 nan_imp = SimpleImputer(missing_values=np.nan, strategy='constant', fill_value=0)
-nan_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+nan_mean = SimpleImputer(missing_values=np.nan, strategy='mean', )
 imp = SimpleImputer(missing_values='-', strategy='constant', fill_value=0)
-imp_df = nan_mean.fit_transform(df[df.columns[12:25]])
+imp_df = nan_mean.fit_transform(df[df.columns[13:25]])
 imp_df = nan_imp.fit_transform(df)
 imp_df = pd.DataFrame(imp.fit_transform(imp_df))
 imp_df.columns = df.columns

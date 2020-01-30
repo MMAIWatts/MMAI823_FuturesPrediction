@@ -14,14 +14,17 @@ df = pd.read_csv(train_path, index_col=0)
 df_test = pd.read_csv(test_path, index_col=0)
 
 # separate labels
-X_train = df[df.columns[:-8]]
-X_test = df_test[df_test.columns[:-8]]
+X_train = df[df.columns[:-16]]
+X_test = df_test[df_test.columns[:-16]]
+y_trains = df[df.columns[-16:]]
+y_tests = df_test[df.columns[-16:]]
 # Use copper as test
 
-
-for i, val in enumerate(df_test.columns):
-    y_train = df[df.columns[-(i+1)]]
-    y_test = df_test[df_test.columns[-(i+1)]]
+scores = []
+for i in np.arange(len(y_trains.columns)):
+    print(y_trains.columns[i])
+    y_train = y_trains[y_trains.columns[i]]
+    y_test = y_tests[y_tests.columns[i]]
     rfc = RandomForestClassifier(n_estimators=8, max_depth=18, random_state=randomState)
     print('Training model...')
     rfc.fit(X_train, y_train)
@@ -29,7 +32,14 @@ for i, val in enumerate(df_test.columns):
     pred_y = rfc.predict(X_test)
 
     rfc_score = balanced_accuracy_score(y_test, pred_y)
+    scores.append(rfc_score)
     print(rfc_score)
+
+df_score = pd.DataFrame(columns=['Commodity', 'score'])
+df_score['Commodity'] = y_trains.columns
+df_score['score'] = scores
+print(df_score)
+df_score.to_csv('out/rf_scores.csv')
 
 # Vizualization Curve, estimators
 # viz_rf = ValidationCurve(RandomForestClassifier(), param_name='n_estimators',

@@ -16,22 +16,31 @@ df = pd.read_csv(train_path, index_col=0)
 df_test = pd.read_csv(test_path, index_col=0)
 
 # separate labels
-X_train = df[df.columns[:-8]]
-X_test = df_test[df_test.columns[:-8]]
-y_trains = df[df.columns[-8:]]
-y_tests = df_test[df_test.columns[-8:]]
+X_train = df[df.columns[:-16]]
+X_test = df_test[df_test.columns[:-16]]
+y_trains = df[df.columns[-16:]]
+y_tests = df_test[df.columns[-16:]]
 
-model = Sequential()
-model.add(Dense(3, input_dim=26, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+scores = []
+for i in np.arange(len(y_trains.columns)):
+    print(y_trains.columns[i])
+    y_train = y_trains[y_trains.columns[i]]
+    y_test = y_tests[y_tests.columns[i]]
+    rfc = MLPClassifier(hidden_layer_sizes=(100, 100, 100, 100, 25), random_state=randomState, )
+    print('Training model...')
+    rfc.fit(X_train, y_train)
+    print('Predicting targets...')
+    pred_y = rfc.predict(X_test)
 
-model.fit(X_train, y_trains.iloc[:, 0], validation_split=0.2, epochs=100, batch_size=10, verbose=0)
-y_pred_keras = model.predict(X_test)
-# round predictions
-y_pred = [round(x[0]) for x in y_pred_keras]
-score = balanced_accuracy_score(y_tests.iloc[:, 0], y_pred)
-print(score)
+    rfc_score = balanced_accuracy_score(y_test, pred_y)
+    scores.append(rfc_score)
+    print(rfc_score)
+
+df_score = pd.DataFrame(columns=['Commodity', 'score'])
+df_score['Commodity'] = y_trains.columns
+df_score['score'] = scores
+print(df_score)
+df_score.to_csv('out/nn_scores4.csv')
 
 # for i, val in enumerate(y_trains.columns):
 #     y_train = y_trains[y_trains.columns[i]]
