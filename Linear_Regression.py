@@ -56,7 +56,7 @@ data_score = pd.DataFrame(columns=['Commodity', 'score'])
 data_score['Commodity'] = y_location_trains.columns
 data_score['score'] = scores
 print(data_score)
-data_score.to_csv('/Users/monalisa/Downloads/mmai823-project-master/out/linear_scores.csv')
+data_score.to_csv('out/linear_scores.csv')
 
 
 print(X_train.columns)
