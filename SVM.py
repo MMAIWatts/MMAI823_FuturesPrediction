@@ -52,7 +52,7 @@ data_score = pd.DataFrame(columns=['Commodity', 'score'])
 data_score['Commodity'] = y_location_trains.columns
 data_score['score'] = scores
 print(data_score)
-df_score.to_csv('/Users/monalisa/Downloads/mmai823-project-master/out/SVF_scores.csv')
+df_score.to_csv('out/SVF_scores.csv')
 
 # Vizualization Curve is better for SVM
 
