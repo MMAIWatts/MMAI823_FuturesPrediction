@@ -2,10 +2,10 @@ import requests
 import pandas as pd
 
 
-def get_weather(datasetid, stationid, datatype, start_date, end_date, token, base_url, locationid=''):
+def get_weather(datasetid, stationid, start_date, end_date, token, base_url, locationid=''):
     token = {'token': token}
 
-    params = 'datasetid=' + str(datasetid) + '&' + 'datatypeid' + str(datatype) + '&' + 'stationid=' + str(stationid) + '&' + 'startdate=' + str(
+    params = 'datasetid=' + str(datasetid) + '&' + 'stationid=' + str(stationid) + '&' + 'startdate=' + str(
         start_date) + '&' + 'enddate=' + str(end_date) + '&' + 'limit=1000' + '&' + 'units=metric'
 
     r = requests.get(base_url, params=params, headers=token)
