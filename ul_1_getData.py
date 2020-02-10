@@ -13,7 +13,7 @@ lastyear = datetime.datetime.now() - datetime.timedelta(weeks=52)
 lastyear_plus = lastyear + datetime.timedelta(weeks=2)
 
 # set start and end dates, currently set to 1 day's data for testing
-begin_date = datetime.date(year=2009, month=1, day=1)
+begin_date = datetime.date(year=2019, month=1, day=1)
 end_date = begin_date.strftime("%Y-%m-%d")
 
 # import list of locations
@@ -25,8 +25,7 @@ print(df_stations)
 # Station ID for the locations of interest
 # stationid = 'GHCND:MXM00076680'
 stationid = 'MXM00076680'
-# datasetid = 'GHCND'
-datasetid = 'NORMAL_DLY'
+datasetid = 'GHCND'
 
 # urls
 base_url_data = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/data'
@@ -34,13 +33,13 @@ df_weather = pd.DataFrame()
 
 # fetch data from NOAA and store in csv
 for s in stations:
-    st = s[6:]
+    print(s)
     for i in np.arange(0, 12):
         start = begin_date + datetime.timedelta(weeks=int(i * 4))
         end = start + datetime.timedelta(weeks=4)
-        d = get_weather(stationid=st, datasetid=datasetid, start_date=start.strftime('%Y-%m-%d'),
+        d = get_weather(stationid=s, datasetid=datasetid, start_date=start.strftime('%Y-%m-%d'),
                         end_date=end.strftime('%Y-%m-%d'), token=myToken, base_url=base_url_data)
         df_weather = df_weather.append(d, ignore_index=True)
 
 # Write to CSV
-df_weather.to_csv('out/2009_raw_weather_data_norm.csv')
+df_weather.to_csv('out/' + str(begin_date.year) + '_raw_weather_data.csv')

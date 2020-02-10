@@ -13,7 +13,7 @@ def get_weather(datasetid, stationid, start_date, end_date, token, base_url, loc
 
     try:
         df = pd.DataFrame.from_dict(r.json()['results'])
-        print('Successfully retrieved ' + str(len(df['station'].unique())) + ' stations')
+        print('Successfully retrieved ' + str(len(df['date'].unique())) + ' days')
         dates = pd.to_datetime(df['date'])
         print('Last date retrieved: ' + str(dates.iloc[-1]))
 

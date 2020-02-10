@@ -14,23 +14,24 @@ wdata7_path = 'out/2012_raw_weather_data.csv'
 wdata8_path = 'out/2011_raw_weather_data.csv'
 wdata9_path = 'out/2010_raw_weather_data.csv'
 wdata10_path = 'out/2009_raw_weather_data.csv'
+wdata11_path = 'out/2008_raw_weather_data.csv'
+wdata12_path = 'out/2007_raw_weather_data.csv'
 
 
-# Read CSV
-# df_weather = pd.read_csv(wdata1_path, index_col=0)
-
+# Read CSV and concat
 df_weather = pd.concat([pd.read_csv(wdata1_path, index_col=0), pd.read_csv(wdata2_path, index_col=0),
                         pd.read_csv(wdata3_path, index_col=0), pd.read_csv(wdata4_path, index_col=0),
                         pd.read_csv(wdata5_path, index_col=0), pd.read_csv(wdata6_path, index_col=0),
                         pd.read_csv(wdata7_path, index_col=0), pd.read_csv(wdata8_path, index_col=0),
                         pd.read_csv(wdata9_path, index_col=0), pd.read_csv(wdata10_path, index_col=0),
+                        pd.read_csv(wdata11_path, index_col=0), pd.read_csv(wdata12_path, index_col=0),
                         ], ignore_index=True)
 
 # Separate PRCP (precipitation) data, drop unneeded columns
 prcp = df_weather[df_weather['datatype'] == 'PRCP']
 prcp.drop(['datatype', 'attributes'], axis=1, inplace=True)
-# Separate TAVG (Average Temperature) data, drop unneeded columns
-tavg = df_weather[df_weather['datatype'] == 'TAVG']
+# Separate TAVG and TOBS (Average Temperature) data, drop unneeded columns
+tavg = df_weather[df_weather['datatype'] == ('TAVG' | 'TOBS')]
 tavg.drop(['datatype', 'attributes'], axis=1, inplace=True)
 
 # merge together, creating features out of the PRCP and TAVG values
