@@ -1,29 +1,36 @@
 import pandas as pd
 import numpy as np
 from utilities.findFiles import findfiles
+from matplotlib import pyplot as plt
 
 # local variables
-target = 'data/commodities'
-data = []
+contracts = ['H', 'K', 'N', 'U', 'X']
 
-for file in findfiles(target):
-    d = pd.read_csv(file, index_col=0)
-    d.drop(labels=['High', 'Low', 'Vol.', 'Change %'], axis=1, inplace=True)
-    d['pct'] = d['Price'].pct_change()
-    data.append(d)
+for c in contracts:
+    target = 'data/FCOJ/' + c
+    data = []
 
-df = pd.DataFrame()
-for i, d in enumerate(data):
-    print(d.tail())
-    df = pd.merge(df, data[i],  right_index=True)
+    paths = findfiles(target, extension='.csv')
+    df = pd.read_csv(paths[0], index_col=0, skipfooter=1, engine='python')
+    df.drop(['Open', 'High', 'Low', 'Change', 'Volume', 'Open Int'], axis=1, inplace=True)
+    df.index = pd.to_datetime(df.index)
+    df.iloc[:, 0] = df['Last'].pct_change()
 
-# df = pd.merge(data[0], data[1], left_index=True, right_index=True)
-# df = pd.merge(df, data[2], left_index=True, right_index=True)
-# df = pd.merge(df, data[3], left_index=True, right_index=True)
-# df = pd.merge(df, data[4], left_index=True, right_index=True)
-# df = pd.merge(df, data[5], left_index=True, right_index=True)
-# df = pd.merge(df, data[6], left_index=True, right_index=True)
-# df = pd.merge(df, data[7], left_index=True, right_index=True)
-# df = pd.merge(df, data[8], left_index=True, right_index=True)
+    col_labels = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19']
+    df.columns = [col_labels[0]]
 
-print(df.info())
+    for i in np.arange(len(paths) - 2):
+        d = pd.read_csv(paths[i + 1], index_col=0, skipfooter=1, engine='python')
+        d.drop(['Open', 'High', 'Low', 'Change', 'Volume', 'Open Int'], axis=1, inplace=True)
+        d.index = pd.to_datetime(d.index)
+        d.iloc[:, 0] = d['Last'].pct_change()
+        d.columns = [col_labels[i + 1]]
+        df = df.merge(d, how='outer', left_index=True, right_index=True)
+
+    df = df.add_prefix(c)
+    print(df.info())
+
+    df.plot(linewidth=0.5)
+    plt.show()
+
+    df.to_csv('out/' + c + '_merged.csv')
