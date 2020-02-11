@@ -3,6 +3,10 @@ import numpy as np
 from utilities.findFiles import findfiles
 from matplotlib import pyplot as plt
 
+# set Pandas options
+pd.set_option('display.width', 2000)
+pd.set_option('display.max_columns', 500)
+
 # local variables
 contracts = ['H', 'K', 'N', 'U', 'X']
 

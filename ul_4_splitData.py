@@ -2,6 +2,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+# set Pandas options
+pd.set_option('display.width', 2000)
+pd.set_option('display.max_columns', 500)
+
 # local variables
 d_path = 'data/joined_master.csv'
 randomState = 42

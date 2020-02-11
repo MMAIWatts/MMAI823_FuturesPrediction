@@ -4,8 +4,10 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from matplotlib import pyplot as plt
 
+# set Pandas options
 pd.set_option('display.width', 2000)
 pd.set_option('display.max_columns', 500)
+
 # Filepaths
 wdata_path = 'data/cleaned_weather_data.csv'
 
@@ -53,4 +55,4 @@ df_s.index = df.index
 
 print(df_s.describe())
 # write to file
-df.to_csv('out/master_weather_norm.csv')
+df_s.to_csv('out/master_weather_norm.csv')
