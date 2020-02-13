@@ -13,10 +13,8 @@ train_test = 0.8
 
 # read csv
 df = pd.read_csv(d_path, index_col=0)
-df = df['2013-04-01':'2019-12-03']
 
 # drop un-need columns
-df.drop(columns=df.columns[-20:], inplace=True)
 print(df.info())
 
 # Separate into features and targets

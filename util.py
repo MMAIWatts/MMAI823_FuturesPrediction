@@ -21,3 +21,4 @@ def get_weather(datasetid, stationid, start_date, end_date, token, base_url, loc
     # catch exceptions
     except:
         print('Error converting weather data to DataFrame.')
+
