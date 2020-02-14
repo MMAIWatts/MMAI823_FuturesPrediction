@@ -10,6 +10,7 @@ pd.set_option('display.max_columns', 500)
 # local variables
 contracts = ['H', 'K', 'N', 'U', 'X']
 
+dataframes = []
 for c in contracts:
     target = 'data/FCOJ/' + c
     data = []
@@ -33,8 +34,10 @@ for c in contracts:
 
     df = df.add_prefix(c)
     print(df.info())
+    dataframes.append(df)
 
-    df.plot(linewidth=0.5)
-    plt.show()
+# merge all dataframes
+df_merged = pd.concat(dataframes, axis=1)
+print(df_merged.info())
+df_merged.to_csv('out/fcoj_merged.csv')
 
-    df.to_csv('out/' + c + '_merged.csv')
