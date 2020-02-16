@@ -38,25 +38,20 @@ data.index = pd.to_datetime(data.index)
 targets = df.iloc[:, -65:]
 targets.index = pd.to_datetime(targets.index, )
 
+# Configure number of lag and target days
 n_lag = 40
 n_seq = 10
 
-supervised = series_to_supervised(df, n_in=n_lag, n_out=n_seq, dropnan=True)
+for i, row in df_dates.iterrows():
+    start = datetime.datetime.fromisoformat(row['Start'])
+    end = datetime.datetime.fromisoformat(row['End'])
 
-# for i, row in df_dates.iterrows():
-#     cstart = datetime.datetime.fromisoformat(row['Start'])
-#     end = datetime.datetime.fromisoformat(row['End'])
-#     # create batches for train-test
-#     if row['Contract'][0] != 'H':
-#         np.savetxt('out/X_Htrain.csv', X, delimiter=',')
-#         break
-#     for x in range(len(data)):
-#         start = cstart + datetime.timedelta(days=2*x)
-#         in_e = start + datetime.timedelta(days=40)
-#         out_s = start + datetime.timedelta(days=40)
-#         out_e = out_s + datetime.timedelta(days=10)
-#         if out_e <= end:
-#             X.append(data.loc[start:in_e, :].to_numpy())
-#             y.append(targets.loc[out_s:out_e, row['Contract']].to_numpy())
-#         else:
-#             break
+    # Slice data and targets to contract limits
+    local_data = data.loc[start:end, :]
+    local_targets = targets.loc[start:end, row['Contract']]
+
+    # Convert to a supervised series
+    supervised = series_to_supervised(local_data, local_targets, n_in=n_lag, n_out=n_seq, dropnan=True)
+
+    supervised.to_csv('out/supervised_data/' + row['Contract'] + '_supervised.csv')
+

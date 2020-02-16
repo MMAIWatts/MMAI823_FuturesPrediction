@@ -4,19 +4,19 @@ import pandas as pd
 
 
 # Define local variables
-wdata1_path = 'out/2019_raw_weather_data.csv'
-wdata2_path = 'out/2018_raw_weather_data.csv'
-wdata3_path = 'out/2017_raw_weather_data.csv'
-wdata4_path = 'out/2016_raw_weather_data.csv'
-wdata5_path = 'out/2015_raw_weather_data.csv'
-wdata6_path = 'out/2014_raw_weather_data.csv'
-wdata7_path = 'out/2013_raw_weather_data.csv'
-wdata8_path = 'out/2012_raw_weather_data.csv'
-wdata9_path = 'out/2011_raw_weather_data.csv'
-wdata10_path = 'out/2010_raw_weather_data.csv'
-wdata11_path = 'out/2009_raw_weather_data.csv'
-wdata12_path = 'out/2008_raw_weather_data.csv'
-wdata13_path = 'out/2007_raw_weather_data.csv'
+wdata1_path = 'out/raw_weather/2019_raw_weather_data.csv'
+wdata2_path = 'out/raw_weather/2018_raw_weather_data.csv'
+wdata3_path = 'out/raw_weather/2017_raw_weather_data.csv'
+wdata4_path = 'out/raw_weather/2016_raw_weather_data.csv'
+wdata5_path = 'out/raw_weather/2015_raw_weather_data.csv'
+wdata6_path = 'out/raw_weather/2014_raw_weather_data.csv'
+wdata7_path = 'out/raw_weather/2013_raw_weather_data.csv'
+wdata8_path = 'out/raw_weather/2012_raw_weather_data.csv'
+wdata9_path = 'out/raw_weather/2011_raw_weather_data.csv'
+wdata10_path = 'out/raw_weather/2010_raw_weather_data.csv'
+wdata11_path = 'out/raw_weather/2009_raw_weather_data.csv'
+wdata12_path = 'out/raw_weather/2008_raw_weather_data.csv'
+wdata13_path = 'out/raw_weather/2007_raw_weather_data.csv'
 
 
 # Read CSV and concat
