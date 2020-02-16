@@ -2,9 +2,11 @@ import datetime
 import numpy as np
 import pandas as pd
 from util import get_weather
+import fileinput
 
 # NOAA API Token
-myToken = 'oGjWvAZgOEWogyaRmrdJxJgyCnWwTMFq'
+api_token_path = 'data/noaa_api_token.txt'
+myToken = fileinput.FileInput(api_token_path).readline()
 # Path to location list
 station_path = 'data/city_codes.csv'
 
