@@ -51,8 +51,10 @@ def build_lstm(X, y, n_lag, n_seq, n_features, n_batch, n_neurons):
     model = Sequential()
     model.add(LSTM(n_neurons, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
                    stateful=False))
+    model.add(Dense(100))
     model.add(Dense(y.shape[1]))
-    model.compile(optimizer='adam', loss='mae')
+    opt = SGD(lr=0.01, momentum=0.9)
+    model.compile(optimizer=opt, loss='mse')
 
     print(model.summary())
 
