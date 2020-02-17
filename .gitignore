@@ -1,3 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 .txt
 .idea
+!/data/noaa_api_token.txt
