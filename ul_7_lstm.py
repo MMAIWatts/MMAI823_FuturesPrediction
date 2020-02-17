@@ -14,13 +14,14 @@ randomState = 42
 train_split = 0.8
 n_features = 66
 n_lag = 40
-n_epoch = 10
+n_neurons = 10
+n_epoch = 20
 n_batch = 1
 datapath = ['out/supervised_data/H09_supervised.csv', 'out/supervised_data/H10_supervised.csv',
-            'out/supervised_data/H11_supervised.csv', 'out/supervised_data/H12_supervised.csv']
-            # 'out/supervised_data/H13_supervised.csv', 'out/supervised_data/H14_supervised.csv',
-            # 'out/supervised_data/H15_supervised.csv', 'out/supervised_data/H16_supervised.csv',
-            # 'out/supervised_data/H17_supervised.csv']
+            'out/supervised_data/H11_supervised.csv', 'out/supervised_data/H12_supervised.csv',
+            'out/supervised_data/H13_supervised.csv', 'out/supervised_data/H14_supervised.csv',
+            'out/supervised_data/H15_supervised.csv', 'out/supervised_data/H16_supervised.csv',
+            'out/supervised_data/H17_supervised.csv']
 
 df = pd.read_csv(datapath[0], index_col=0)
 
@@ -29,7 +30,7 @@ X_train, X_test, y_train, y_test = lstm.train_test_split_lstm(df, n_lag=n_lag, n
                                                               split=train_split)
 # Instantiate and compile model
 model = lstm.build_lstm(X_train, y_train, n_lag=n_lag, n_seq=1, n_features=n_features,
-                        n_batch=n_batch, n_neurons=40)
+                        n_batch=n_batch, n_neurons=n_neurons)
 scl = StandardScaler()
 
 for path in datapath:
@@ -61,7 +62,7 @@ for path in testdatapath:
     df_test = pd.DataFrame(y_test)
     df_pred = pd.DataFrame(scl.inverse_transform(y_pred))
     pred = pd.concat([df_test, df_pred], axis=1)
-    pred.to_csv('out/predictions_mse_' + path[-18:-15] + '.csv')
+    pred.to_csv('out/predictions_mse_20_' + path[-18:-15] + '.csv')
 
     lstm.evaluate_forecasts(y_test, y_pred, 10)
 

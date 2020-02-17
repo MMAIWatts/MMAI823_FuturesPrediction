@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from keras.layers import LSTM, Dense, Dropout
+from keras.layers import LSTM, Dense, Dropout, GRU, Conv1D
 from keras.models import Model, Sequential
 from keras.optimizers import SGD
 from sklearn.metrics import mean_squared_error, r2_score
@@ -49,12 +49,13 @@ def build_lstm(X, y, n_lag, n_seq, n_features, n_batch, n_neurons):
     # reshape data into [samples, timesteps, features]
 
     model = Sequential()
-    model.add(LSTM(n_neurons, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
+    model.add(LSTM(n_neurons, return_sequences=False, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
                    stateful=False))
-    model.add(Dense(100))
+    # model.add(Dropout(0.5))
+    # model.add(Dense(10))
     model.add(Dense(y.shape[1]))
     opt = SGD(lr=0.01, momentum=0.9)
-    model.compile(optimizer=opt, loss='mse')
+    model.compile(optimizer=opt, loss='mse', metrics=['mse', 'accuracy'])
 
     print(model.summary())
 
@@ -67,6 +68,8 @@ def fit_lstm(model, X_train, X_test, y_train, y_test, n_epoch, n_batch):
     # plot history
     plt.plot(history.history['loss'], label='train')
     plt.plot(history.history['val_loss'], label='test')
+    plt.xlabel('Epoch')
+    plt.ylabel('MSE')
     plt.legend()
     plt.show()
     model.reset_states()
