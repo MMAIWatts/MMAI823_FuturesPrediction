@@ -31,6 +31,7 @@ X_train, X_test, y_train, y_test = lstm.train_test_split_lstm(df, n_lag=n_lag, n
 # Instantiate and compile model
 model = lstm.build_lstm(X_train, y_train, n_lag=n_lag, n_seq=1, n_features=n_features,
                         n_batch=n_batch, n_neurons=n_neurons)
+
 scl = StandardScaler()
 
 for path in datapath:
@@ -45,7 +46,6 @@ for path in datapath:
 
     # fit model
     model = lstm.fit_lstm(model, X_train, X_test, y_train, y_test, n_epoch=n_epoch, n_batch=n_batch)
-
 
 # load unseen data
 testdatapath = ['out/supervised_data/H18_supervised.csv',

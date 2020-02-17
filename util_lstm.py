@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from keras.layers import LSTM, Dense, Dropout, GRU, Conv1D
 from keras.models import Model, Sequential
-from keras.optimizers import SGD
+from keras.optimizers import SGD, Adam
 from sklearn.metrics import mean_squared_error, r2_score
 from math import sqrt
 
@@ -34,6 +34,34 @@ def train_test_split_lstm(data, n_lag, n_features, split=0.8):
     return X_train, X_test, y_train, y_test
 
 
+def build_nn(X, y, n_lag, n_seq, n_features, n_batch, n_neurons):
+    """
+    Builds the LSTM model using the following parameters
+    :param X: Training data
+    :param y: Trainin labels
+    :param n_lag: Testing Data number of lag days
+    :param n_seq:
+    :param n_features:
+    :param n_batch:
+    :param n_neurons:
+    :return: Compiled LSTM model
+    """
+    # reshape data into [samples, timesteps, features]
+
+    model = Sequential()
+    model.add(Dense(units=n_neurons, activation='relu'))
+    model.add(Dense(units=n_neurons, activation='relu'))
+    # model.add(Dropout(0.5))
+    model.add(Dense(10))
+    model.add(Dense(y.shape[1]))
+    opt = SGD(lr=0.01, momentum=0.9)
+    model.compile(optimizer=opt, loss='mse', metrics=['mse', 'accuracy'])
+
+    # print(model.summary())
+
+    return model
+
+
 def build_lstm(X, y, n_lag, n_seq, n_features, n_batch, n_neurons):
     """
     Builds the LSTM model using the following parameters
@@ -49,12 +77,12 @@ def build_lstm(X, y, n_lag, n_seq, n_features, n_batch, n_neurons):
     # reshape data into [samples, timesteps, features]
 
     model = Sequential()
-    model.add(LSTM(n_neurons, return_sequences=False, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
+    model.add(GRU(n_neurons, return_sequences=False, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
                    stateful=False))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     # model.add(Dense(10))
     model.add(Dense(y.shape[1]))
-    opt = SGD(lr=0.01, momentum=0.9)
+    opt = Adam()
     model.compile(optimizer=opt, loss='mse', metrics=['mse', 'accuracy'])
 
     print(model.summary())
