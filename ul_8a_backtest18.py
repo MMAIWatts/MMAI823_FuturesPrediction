@@ -18,7 +18,7 @@ class SmaCross18(Strategy):
     n3 = 15
 
     def init(self):
-        spotprice = pd.read_csv(paths[7], index_col=0)
+        spotprice = pd.read_csv(paths[6], index_col=0)
         spotprice.index = pd.to_datetime(spotprice.index)
         self.sma1 = self.I(SMA, spotprice.Close, self.n1)
         self.sma2 = self.I(SMA, spotprice.Close, self.n2)
@@ -45,6 +45,6 @@ results = bt.run()
 print(results)
 df= results._trade_data
 print(df.head())
-df.to_csv('out/h18_trading_results.csv')
+# df.to_csv('out/h18_trading_results.csv')
 
-bt.plot()
+# bt.plot()
