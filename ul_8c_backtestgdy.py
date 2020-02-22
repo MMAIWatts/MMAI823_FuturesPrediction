@@ -8,8 +8,8 @@ actualpath = 'data/FCOJ/gdy00_backtest.csv'
 
 class SmaCross19(Strategy):
 
-    n1 = 1
-    n2 = 15
+    n1 = 20
+    n2 = 40
 
     def init(self):
         self.sma1 = self.I(SMA, self.data.Close, self.n1)
@@ -32,6 +32,10 @@ commission = 0.0102
 data = pd.read_csv(actualpath, index_col=0)
 data.index = pd.to_datetime(data.index)
 bt = Backtest(data, SmaCross19, cash=cash, commission=commission, trade_on_close=True)
-print(bt.run())
+results = bt.run()
+print(results)
+df= results._trade_data
+print(df.head())
+df.to_csv('out/gdy_trading_results.csv')
 
-bt.plot()
+# bt.plot()

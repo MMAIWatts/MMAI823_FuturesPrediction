@@ -13,14 +13,16 @@ actualpath = 'data/spotpriceH19.csv'
 
 class SmaCross19(Strategy):
 
-    n1 = 1
-    n2 = 15
+    n1 = 2
+    n2 = 40
+    n3 = 15
 
     def init(self):
-        spotprice = pd.read_csv(paths[9], index_col=0)
+        spotprice = pd.read_csv(paths[7], index_col=0)
         spotprice.index = pd.to_datetime(spotprice.index)
         self.sma1 = self.I(SMA, spotprice.Close, self.n1)
-        self.sma2 = self.I(SMA, self.data.Close, self.n2)
+        self.sma2 = self.I(SMA, spotprice.Close, self.n2)
+        self.sma3 = self.I(SMA, self.data.Close, self.n3)
 
     def next(self):
         # if sma1 crosses above sma2, buy the asset
@@ -39,6 +41,10 @@ commission = 0.0102
 data = pd.read_csv(actualpath, index_col=0)
 data.index = pd.to_datetime(data.index)
 bt = Backtest(data, SmaCross19, cash=cash, commission=commission, trade_on_close=True)
-print(bt.run())
+results = bt.run()
+print(results)
+df= results._trade_data
+print(df.head())
+df.to_csv('out/h19_trading_results.csv')
 
 bt.plot()
