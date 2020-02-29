@@ -6,7 +6,7 @@ from backtesting.test import SMA
 paths = ['data/predictionsH19_1.csv', 'data/predictionsH19_2.csv',
          'data/predictionsH19_3.csv', 'data/predictionsH19_4.csv',
          'data/predictionsH19_5.csv', 'data/predictionsH19_6.csv',
-         'data/predictionsH19_7.csv', 'data/predictionsH19_8.csv',
+         'data/predictionsH19_7.csv', 'data/predictionsH19_update.csv',
          'data/predictionsH19_9.csv', 'data/predictionsH19_10.csv']
 actualpath = 'data/spotpriceH19.csv'
 
@@ -18,7 +18,7 @@ class SmaCross19(Strategy):
     n3 = 15
 
     def init(self):
-        spotprice = pd.read_csv(paths[6], index_col=0)
+        spotprice = pd.read_csv(paths[7], index_col=0)
         spotprice.index = pd.to_datetime(spotprice.index)
         self.sma1 = self.I(SMA, spotprice.Close, self.n1)
         self.sma2 = self.I(SMA, spotprice.Close, self.n2)
@@ -47,4 +47,4 @@ df= results._trade_data
 print(df.head())
 # df.to_csv('out/h19_trading_results.csv')
 
-# bt.plot()
+bt.plot()

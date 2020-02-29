@@ -77,7 +77,7 @@ def build_lstm(X, y, n_lag, n_seq, n_features, n_batch, n_neurons):
     # reshape data into [samples, timesteps, features]
 
     model = Sequential()
-    model.add(GRU(n_neurons, return_sequences=False, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
+    model.add(LSTM(n_neurons, return_sequences=False, batch_input_shape=(n_batch, X.shape[1], X.shape[2]),
                    stateful=False))
     model.add(Dropout(0.5))
     # model.add(Dense(10))
