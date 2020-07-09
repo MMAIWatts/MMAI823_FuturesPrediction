@@ -35,7 +35,7 @@ def get_weather(datasetid, stationid, start_date, end_date, token, base_url, loc
     except:
         print('Error converting weather data to DataFrame.')
 
-
+# get time series dataset into a labeled dataset
 def series_to_supervised(data, targets, n_in=1, n_out=1, dropnan=True):
     """
     Converts a time series to a supervised learning problem.
@@ -60,7 +60,7 @@ def series_to_supervised(data, targets, n_in=1, n_out=1, dropnan=True):
             names += [('var%d(t)' % (j+1)) for j in range(n_vars-1, n_vars)]
         else:
             names += [('var%d(t+%d)' % (j+1, i)) for j in range(n_vars-1, n_vars)]
-    # put it all together
+    # concatenate dataframes
     agg = pd.concat(cols, axis=1)
     agg.columns = names
     # drop rows with NaN values
